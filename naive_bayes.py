@@ -10,15 +10,21 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import accuracy_score, roc_auc_score, f1_score
 
-
-def run_models(data):
+# on should be one of {"f1", "acc", "roc"}
+def run_models(on="f1"):
+    # Parameters to itterate over
     stopwords = [True, False]
     gram = [1, 2]
     
+    # Read in data
     data = pd.read_csv("./data/cleaned_headlines.csv")
     
     # Split out the y column
     y = data.is_sarcastic
+    
+    # Create variables to track best params
+    top_score = 0
+    top_params = None
     
     print("****** Running Models *******")
     for s in stopwords:
@@ -49,13 +55,32 @@ def run_models(data):
             else:
                 print(f"Using gram = {g} and no stopwords:")
             
-            print(f"f1_score: {f1_score(valy, clf.predict(valX))}")
+            f1 = f1_score(valy, clf.predict(valX))
+            print(f"f1_score: {f1}")
             
-            print(f"accuracy_score: {accuracy_score(valy, clf.predict(valX))}")
+            acc = accuracy_score(valy, clf.predict(valX))
+            print(f"accuracy_score: {acc}")
             
-            print(f"roc_auc_score: {roc_auc_score(valy, clf.predict_proba(valX)[:, 1])}")
+            roc = roc_auc_score(valy, clf.predict_proba(valX)[:, 1])
+            print(f"roc_auc_score: {roc}")
             
             print("________________________")
+            
+            if on == "f1":
+                if top_score < f1:
+                    top_score = f1
+                    top_params = {"stopwords": s, "gram_size": g}
+            elif on == "acc":
+                if top_score < acc:
+                    top_score = acc
+                    top_params = {"stopwords": s, "gram_size": g}
+            else:
+                if top_score < roc:
+                    top_score = roc
+                    top_params = {"stopwords": s, "gram_size": g}
+                    
+                    
+    print(f"Best params based on {on} was {top_params} with a score of {top_score}")
             
             
             
