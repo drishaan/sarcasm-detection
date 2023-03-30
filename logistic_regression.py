@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 
@@ -47,7 +48,7 @@ def run_models(gram=2, on="f1"):
             
             
             # Train the Naive Bayes classifier
-            clf = MultinomialNB()
+            clf = LogisticRegression(random_state=487, max_iter=1000)
             clf.fit(trainX, trainy)
             
             if s:
