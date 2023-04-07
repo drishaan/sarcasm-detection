@@ -11,13 +11,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, roc_auc_score, f1_score
 
 # on should be one of {"f1", "acc", "roc"}
-def run_models(gram=2, on="f1"):
+def run_models(data, gram=2, on="f1"):
     # Parameters to iterate over
     stopwords = [True, False]
     gram = [g+1 for g in range(gram)]
-    
-    # Read in data
-    data = pd.read_csv("./data/cleaned_headlines.csv")
     
     # Split out the y column
     y = data.is_sarcastic
