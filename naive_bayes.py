@@ -79,20 +79,3 @@ def run_models(data, gram=2, on="f1"):
                     
     # Print best parameters based on metric choosen
     print(f"Best params based on {on} was {top_params} with a score of {top_score}")
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
