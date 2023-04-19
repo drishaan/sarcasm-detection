@@ -27,7 +27,7 @@ def run_models(data, gram=2, on="f1"):
     for s in stopwords:
         
         for g in gram:
-            
+            # Get ngrams
             vectorizer = CountVectorizer(ngram_range = (1, g))
             
             # Vectorize the input column
@@ -63,6 +63,7 @@ def run_models(data, gram=2, on="f1"):
             
             print("________________________")
             
+            # Vary output depending on which metric is being tested for
             if on == "f1":
                 if top_score < f1:
                     top_score = f1
@@ -76,7 +77,7 @@ def run_models(data, gram=2, on="f1"):
                     top_score = roc
                     top_params = {"stopwords": s, "gram_size": g}
                     
-                    
+    # Print best parameters based on metric choosen
     print(f"Best params based on {on} was {top_params} with a score of {top_score}")
             
             
